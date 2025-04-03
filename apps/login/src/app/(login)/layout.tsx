@@ -1,7 +1,7 @@
 import "@/styles/globals.scss";
 
+import Header from "@/components/Header/Header";
 import { LanguageProvider } from "@/components/language-provider";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import { Skeleton } from "@/components/skeleton";
 import { Theme } from "@/components/theme";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -41,14 +41,11 @@ export default async function RootLayout({
             }
           >
             <LanguageProvider>
-              <div
-                className={`relative min-h-screen bg-background-light-600 dark:bg-background-dark-600 flex flex-col justify-center`}
-              >
-                <div className="relative mx-auto max-w-[440px] py-8 w-full ">
-                  {children}
-                  <div className="flex flex-row justify-end py-4 items-center space-x-4">
-                    <LanguageSwitcher />
-                    <Theme />
+              <div className="relative min-h-screen bg-background-light-600 dark:bg-background-dark-600 flex flex-col">
+                <Header />
+                <div className="flex flex-col justify-center flex-1">
+                  <div className="relative mx-auto max-w-[440px] py-8 w-full translate-y-[-100px]">
+                    {children}
                   </div>
                 </div>
               </div>
