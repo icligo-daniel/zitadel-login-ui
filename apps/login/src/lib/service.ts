@@ -33,9 +33,6 @@ export async function createServiceForHost<T extends ServiceClass>(
     process.env.SYSTEM_USER_PRIVATE_KEY
   ) {
     console.log("[MULTITENANT] using system user token");
-    console.log(process.env.AUDIENCE);
-    console.log(process.env.SYSTEM_USER_ID);
-    console.log(process.env.SYSTEM_USER_PRIVATE_KEY);
     token = await systemAPIToken();
   } else if (process.env.ZITADEL_SERVICE_USER_TOKEN) {
     console.log("[SINGLETENANT] using service user token");
@@ -97,6 +94,7 @@ export function getServiceUrlFromHeaders(headers: ReadonlyHeaders): {
     instanceUrl = process.env.ZITADEL_API_URL;
   } else {
     const host = headers.get("host");
+    console.log("host", host);
 
     if (host) {
       const [hostname, port] = host.split(":");

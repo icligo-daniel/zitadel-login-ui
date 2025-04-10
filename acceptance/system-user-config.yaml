@@ -1,0 +1,9 @@
+SystemAPIUsers:
+  - system-user-1:
+      Path: /system-user-1.pub
+      Memberships:
+        - MemberType: System
+          Roles:
+            - "SYSTEM_OWNER"
+            - "IAM_OWNER"
+            - "ORG_OWNER"

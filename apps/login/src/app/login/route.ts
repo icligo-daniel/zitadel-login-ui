@@ -135,6 +135,8 @@ export async function GET(request: NextRequest) {
       authRequestId: requestId.replace("oidc_", ""),
     });
 
+    console.log("authRequest with oidc_", authRequest);
+
     let organization = "";
     let suffix = "";
     let idpId = "";

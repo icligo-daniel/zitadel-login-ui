@@ -8,6 +8,9 @@ services:
     volumes:
       - ./pat:/pat
       - ./zitadel.yaml:/zitadel.yaml
+      - ./system-user-config.yaml:/system-user-config.yaml
+      - ./system-user-1.pub:/system-user-1.pub
+      - ./system-user-1.pem:/system-user-1.pem
     depends_on:
       db:
         condition: "service_healthy"

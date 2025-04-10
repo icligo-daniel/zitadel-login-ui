@@ -7,6 +7,7 @@ import {
   getBrandingSettings,
   getDefaultOrg,
   getLoginSettings,
+  getOrgsByDomain,
 } from "@/lib/zitadel";
 import { Organization } from "@zitadel/proto/zitadel/org/v2/org_pb";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -28,8 +29,24 @@ export default async function Page(props: {
   const _headers = await headers();
   const { serviceUrl } = getServiceUrlFromHeaders(_headers);
 
+  // Get the domain from the host header
+  const host = _headers.get("host") || "";
+  const domain = host.split(":")[0]; // Remove port if present
+
+  // Try to find organization by domain
+  let domainOrganization;
+  if (domain && domain !== "localhost") {
+    const orgs = await getOrgsByDomain({
+      serviceUrl,
+      domain,
+    });
+    if (orgs && orgs.result && orgs.result.length > 0) {
+      domainOrganization = orgs.result[0].id;
+    }
+  }
+
   let defaultOrganization;
-  if (!organization) {
+  if (!organization && !domainOrganization) {
     const org: Organization | null = await getDefaultOrg({
       serviceUrl,
     });
@@ -38,25 +55,25 @@ export default async function Page(props: {
     }
   }
 
-  // console.log("organization", organization);
-  // console.log("defaultOrganization", defaultOrganization);
+  // Use domain organization if available, otherwise fall back to search params or default
+  const effectiveOrganization =
+    domainOrganization ?? organization ?? defaultOrganization;
 
   const loginSettings = await getLoginSettings({
     serviceUrl,
-    organization: organization ?? defaultOrganization,
+    organization: effectiveOrganization,
   });
 
   const contextLoginSettings = await getLoginSettings({
     serviceUrl,
-    organization,
+    organization: effectiveOrganization,
   });
 
   const identityProviders = await getActiveIdentityProviders({
     serviceUrl,
-    orgId: organization ?? defaultOrganization,
+    orgId: effectiveOrganization,
   })
     .then((resp) => {
-      // console.log("resp", resp);
       return resp.identityProviders;
     })
     .catch((err) => {
@@ -66,10 +83,8 @@ export default async function Page(props: {
 
   const branding = await getBrandingSettings({
     serviceUrl,
-    organization: organization ?? defaultOrganization,
+    organization: effectiveOrganization,
   });
-
-  // console.log("branding", branding);
 
   return (
     <DynamicTheme branding={branding}>
@@ -80,7 +95,7 @@ export default async function Page(props: {
         <UsernameForm
           loginName={loginName}
           requestId={requestId}
-          organization={organization} // stick to "organization" as we still want to do user discovery based on the searchParams not the default organization, later the organization is determined by the found user
+          organization={effectiveOrganization}
           loginSettings={contextLoginSettings}
           suffix={suffix}
           submit={submit}
@@ -90,7 +105,7 @@ export default async function Page(props: {
             <SignInWithIdp
               identityProviders={identityProviders}
               requestId={requestId}
-              organization={organization}
+              organization={effectiveOrganization}
             ></SignInWithIdp>
           )}
         </UsernameForm>
