@@ -4,9 +4,11 @@ import { Theme } from "../theme";
 
 const Header: React.FC = () => {
   return (
-    <div className="flex flex-row justify-end p-4 items-center space-x-4">
-      <LanguageSwitcher />
-      <Theme />
+    <div className="absolute top-0 right-0 p-4 z-10">
+      <div className="flex flex-row items-center space-x-4">
+        <LanguageSwitcher />
+        <Theme />
+      </div>
     </div>
   );
 

@@ -176,6 +176,8 @@ export async function GET(request: NextRequest) {
         const matched = IDP_SCOPE_REGEX.exec(idpScope);
         idpId = matched?.[1] ?? "";
 
+        // console.log("idpScope", idpScope);
+        // console.log("idpId", idpId);
         const identityProviders = await getActiveIdentityProviders({
           serviceUrl,
           orgId: organization ? organization : undefined,
@@ -191,6 +193,7 @@ export async function GET(request: NextRequest) {
           const identityProviderType = identityProviders[0].type;
           let provider = idpTypeToSlug(identityProviderType);
 
+          // console.log("provider", provider);
           const params = new URLSearchParams();
 
           if (requestId) {

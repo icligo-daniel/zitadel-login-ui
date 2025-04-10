@@ -32,8 +32,13 @@ export async function createServiceForHost<T extends ServiceClass>(
     process.env.SYSTEM_USER_ID &&
     process.env.SYSTEM_USER_PRIVATE_KEY
   ) {
+    console.log("[MULTITENANT] using system user token");
+    console.log(process.env.AUDIENCE);
+    console.log(process.env.SYSTEM_USER_ID);
+    console.log(process.env.SYSTEM_USER_PRIVATE_KEY);
     token = await systemAPIToken();
   } else if (process.env.ZITADEL_SERVICE_USER_TOKEN) {
+    console.log("[SINGLETENANT] using service user token");
     token = process.env.ZITADEL_SERVICE_USER_TOKEN;
   }
 

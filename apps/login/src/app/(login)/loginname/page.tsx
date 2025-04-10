@@ -38,6 +38,9 @@ export default async function Page(props: {
     }
   }
 
+  // console.log("organization", organization);
+  // console.log("defaultOrganization", defaultOrganization);
+
   const loginSettings = await getLoginSettings({
     serviceUrl,
     organization: organization ?? defaultOrganization,
@@ -51,14 +54,22 @@ export default async function Page(props: {
   const identityProviders = await getActiveIdentityProviders({
     serviceUrl,
     orgId: organization ?? defaultOrganization,
-  }).then((resp) => {
-    return resp.identityProviders;
-  });
+  })
+    .then((resp) => {
+      // console.log("resp", resp);
+      return resp.identityProviders;
+    })
+    .catch((err) => {
+      console.error("Error getting active identity providers", err);
+      return [];
+    });
 
   const branding = await getBrandingSettings({
     serviceUrl,
     organization: organization ?? defaultOrganization,
   });
+
+  // console.log("branding", branding);
 
   return (
     <DynamicTheme branding={branding}>

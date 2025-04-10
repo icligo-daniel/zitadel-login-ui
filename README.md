@@ -87,7 +87,7 @@ You can already use the current state, and extend it with your needs.
     - [ ] Consent
     - [x] Create
   - Scopes
-    - [x] `openid email profile address``
+    - [x] `openid email profile address`
     - [x] `offline access`
     - [x] `urn:zitadel:iam:org:idp:id:{idp_id}`
     - [x] `urn:zitadel:iam:org:project:id:zitadel:aud`

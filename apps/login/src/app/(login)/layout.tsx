@@ -27,7 +27,7 @@ export default async function RootLayout({
           <Suspense
             fallback={
               <div
-                className={`relative min-h-screen bg-background-light-600 dark:bg-background-dark-600 flex flex-col justify-center`}
+                className={`relative h-[100%] bg-background-light-600 dark:bg-background-dark-600 flex flex-col justify-center`}
               >
                 <div className="relative mx-auto max-w-[440px] py-8 w-full">
                   <Skeleton>
@@ -41,12 +41,10 @@ export default async function RootLayout({
             }
           >
             <LanguageProvider>
-              <div className="relative min-h-screen bg-background-light-600 dark:bg-background-dark-600 flex flex-col">
+              <div className="relative h-[100%] bg-background-light-600 dark:bg-background-dark-600 flex flex-col justify-center">
                 <Header />
-                <div className="flex flex-col justify-center flex-1">
-                  <div className="relative mx-auto max-w-[440px] py-8 w-full translate-y-[-100px]">
-                    {children}
-                  </div>
+                <div className="flex flex-1 flex-col justify-center mx-auto max-w-[440px] py-8 w-full">
+                  {children}
                 </div>
               </div>
             </LanguageProvider>
