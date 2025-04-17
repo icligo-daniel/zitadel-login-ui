@@ -7,8 +7,8 @@ import { Theme } from "@/components/theme";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { Lato } from "next/font/google";
+import Image from "next/image";
 import { ReactNode, Suspense } from "react";
-
 const lato = Lato({
   weight: ["400", "700", "900"],
   subsets: ["latin"],
@@ -41,8 +41,16 @@ export default async function RootLayout({
             }
           >
             <LanguageProvider>
-              <div className="relative h-[100%] bg-background-light-600 dark:bg-background-dark-600 flex flex-col justify-center">
+              <div className="relative h-[100%] bg-background-light-600 dark:bg-background-dark-600 flex justify-center">
                 <Header />
+                <div className="flex w-[38%]">
+                  <Image
+                    src="/images/login-background.png"
+                    alt="Login Background"
+                    width={1000}
+                    height={1000}
+                  />
+                </div>
                 <div className="flex flex-1 flex-col justify-center mx-auto max-w-[440px] py-8 w-full">
                   {children}
                 </div>
